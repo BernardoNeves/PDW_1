@@ -1,8 +1,8 @@
 body {
-   text-align: center;
-   background-color: #0f0f0f;
-} 
+  text-align: center;
+  background-color: #0f0f0f;
+}
 
 canvas {
-   border: 5px solid gray;
+  border: 5px solid gray;
 }
