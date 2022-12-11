@@ -5,7 +5,6 @@ const keys = {
 };
 
 window.addEventListener("keydown", (event) => {
-  console.log(event);
   switch (event.key) {
     case "ArrowUp":
     case " ":
@@ -23,7 +22,6 @@ window.addEventListener("keydown", (event) => {
   }
 });
 window.addEventListener("keyup", (event) => {
-  console.log(event);
   switch (event.key) {
     case "ArrowUp":
     case " ":
