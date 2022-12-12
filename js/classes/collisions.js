@@ -1,110 +1,116 @@
-const collision = [
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+const map = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
+  [1, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+  [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
-
-Array.prototype.parse2D = function () {
-  const rows = [];
-  for (let i = 0; i < this.length; i += 16) {
-    rows.push(this.slice(i, i + 16));
-  }
-  return rows;
-};
-
-class collisionblock {
-  constructor({ position }) {
-    this.position = position;
-    this.width = 45;
-    this.height = 45;
-  }
-  
-  draw() {
-    context.fillStyle = "green";
-    context.fillRect(this.position.x, this.position.x, this.width, this.height);
-  }
-}
 
 const collisionblocks = [];
 
-const parsed_collisions = collision.parse2D();
-parsed_collisions.forEach((row, y) => {
+map.forEach((row, y) => {
   row.forEach((object, x) => {
-    if (object == 1) {
-      collisionblocks.push(
-        new collisionblock({
-          position: {
-            x: x * 45,
-            y: y * 45,
-          },
-        })
-      );
+    switch (object) {
+      case 1:
+        collisionblocks.push(
+          new collisionblock({
+            position: {
+              x: x * 45,
+              y: y * 45,
+            },
+          })
+        );
+        break;
+      case 2:
+        collisionblocks.push(
+          new Spike({
+            position: {
+              x: x * 45,
+              y: y * 45,
+            },
+          })
+        );
+        break;
+      case 3:
+        collisionblocks.push(
+          new Portal({
+            position: {
+              x: x * 45,
+              y: y * 45,
+            },
+          })
+        );
+        break;
     }
   });
 });
 
-function boxCollision(player, object) {
+function box_collision_x(player, object) {
   const player_top = player.position.y;
   const player_bottom = player.position.y + player.height;
   const player_left = player.position.x;
   const player_right = player.position.x + player.width;
+
   const object_top = object.position.y;
   const object_bottom = object.position.y + object.height;
   const object_left = object.position.x;
   const object_right = object.position.x + object.width;
 
   if (
-    player_right + player.velocity.x >= object_left &&
-    player_left + player.velocity.x <= object_right && 
-    player_bottom + player.velocity.y >= object_top &&
-    player_top + player.velocity.y <= object_bottom
-  )
-    if (player.velocity.x < 0){
-      player.position.x = object.position.x + object.width + 0.1 // buffer
+    player_left <= object_right &&
+    player_right >= object_left &&
+    player_bottom >= object_top &&
+    player_top <= object_bottom
+  ) {
+    if (player.velocity.x < 0) {
+      player.velocity.x = 0;
+      player.position.x = object.position.x + object.width + 0.01; // buffer
+      return;
     }
-    if (player.velocity.x > 0){
-      player.position.x = object.position.x - player.width - 0.1 // buffer
+    if (player.velocity.x > 0) {
+      player.velocity.x = 0;
+      player.position.x = object.position.x - player.width - 0.01; // buffer
+      return;
     }
-    if (player.velocity.y < 0){
-      player.position.y = object.position.y + object.height + 0.1 // buffer
-    }
-    if (player.velocity.y > 0){
-      player.position.y = object.position.y - player.height - 0.1 // buffer
-    }
-    return true;
+  }
 }
-// function boxCollision2(player, object) {
-//   const player_top = player.position.y;
-  // const player_bottom = player.position.y + player.height;
-  // const player_left = player.position.x;
-  // const player_right = player.position.x + player.width;
-//   const object_top = object.position.y;
-  // const object_bottom = object.position.y + object.height;
-  // const object_left = object.position.x;
-  // const object_right = object.position.x + object.width;
+function box_collision_y(player, object) {
+  const player_top = player.position.y;
+  const player_bottom = player.position.y + player.height;
+  const player_left = player.position.x;
+  const player_right = player.position.x + player.width;
 
-//   if (
-    // player_right + player.velocity.x >= object_left &&
-    // player_left + player.velocity.x <= object_right && 
-    // player_bottom + player.velocity.y >= object_top &&
-    // player_top + player.velocity.y <= object_bottom
-//   )
-//     if (player.velocity.y < 0){
-//       player.position.y = object.position.y + object.height + 0.1 // buffer
-//     }
-//     if (player.velocity.y > 0){
-//       player.position.y = object.position.y - player.height - 0.1 // buffer
-//     }
-//     return true;
-// }
+  const object_top = object.position.y;
+  const object_bottom = object.position.y + object.height;
+  const object_left = object.position.x;
+  const object_right = object.position.x + object.width;
 
-collisionblocks.forEach(collisionblock =>  {
-  boxCollision(player, collisionblock)
-});
+  if (
+    player_left <= object_right &&
+    player_right >= object_left &&
+    player_bottom >= object_top &&
+    player_top <= object_bottom
+  ) {
+    if (player.velocity.y < 0) {
+      player.velocity.y = 0;
+      player.position.y = object.position.y + object.height + 0.01; // buffer
+      return false;
+    }
+    if (player.velocity.y > 0) {
+      player.velocity.y = 0;
+      player.position.y = object.position.y - player.height - 0.01; // buffer
+      return true;
+    }
+  }
+}

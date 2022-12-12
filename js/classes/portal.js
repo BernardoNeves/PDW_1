@@ -1,32 +1,21 @@
-class Portal {
-    constructor(x, y, color) {
-        (this.position = {
-            x: x,
-            y: y,
-        }),
-        (this.color = color);
+class Portal extends collisionblock {
+  constructor(position) {
+    super(position);
+    this.positionLink = {
+      x: this.position.x,
+      y: this.position.y,
+    };
+  }
 
-        this.width = 10;
-        this.height = 50;
+  color = "purple";
 
-        this.positionLink = {
-            x: x,
-            y: y,
-        }
-    }
+  portalLink(portallink) {
+    this.positionLink.x = portallink.position.x;
+    this.positionLink.y = portallink.position.y;
+  }
 
-    portalLink(portallink) {
-        this.positionLink.x = portallink.position.x;
-        this.positionLink.y = portallink.position.y;
-    }
-
-    draw() {
-        context.fillStyle = this.color;
-        context.fillRect(this.position.x, this.position.y, this.width, this.height);
-    }
-
-    playerTeletransportator(player) {
-        player.position.x = this.positionLink.x;
-        player.position.y = this.positionLink.y;
-    }
+  playerTeletransportator(player) {
+    player.position.x = this.positionLink.x;
+    player.position.y = this.positionLink.y;
+  }
 }

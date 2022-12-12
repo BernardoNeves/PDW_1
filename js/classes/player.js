@@ -10,10 +10,10 @@ class Player {
       y: 0,
     };
     this.gravity = 0.4;
-    this.speed = 5;
+    this.speed = 4;
 
-    this.width = 50;
-    this.height = 50;
+    this.width = 25;
+    this.height = 25;
 
     this.life = 1;
 
@@ -38,43 +38,21 @@ class Player {
   update() {
     if (keys.a.pressed) player.velocity.x -= player.speed;
     if (keys.d.pressed) player.velocity.x += player.speed;
-    if (keys.w.pressed && player.velocity.y === 0) player.velocity.y = -10;
-    if (boxCollision(player, player2)) {
-      player.velocity.x = 0;
-    }
-    if (boxCollision(player, player2)) {
-      player.velocity.y = 0;
-    }
-
-    this.position.y += this.velocity.y;
-    this.velocity.y += this.gravity;
-    this.sides.bottom = this.position.y + this.height;
-
-    if (this.sides.bottom + this.velocity.y > canvas.height) {
-      this.velocity.y = 0;
-    }
-    if (boxCollision(player, player2)) this.velocity.y = 0;
-    this.sides.left = this.position.x;
-
-    if (this.sides.left + this.velocity.x < 0) {
-      this.velocity.x = 0;
-    }
-    this.sides.right = this.position.x + this.width;
-    if (this.sides.right + this.velocity.x > canvas.width) {
-      this.velocity.x = 0;
-    }
-
-    if (boxCollision(player, spike)) {
-      this.life = 0;
-      this.position.x = this.initialPosition.x;
-      this.position.y = this.initialPosition.y;
-    }
-
-    if (boxCollision(player, portal1)) {
-      portal1.playerTeletransportator(player);
-    }
 
     this.position.x += this.velocity.x;
+    collisionblocks.forEach((collisionblock) => {
+      box_collision_x(player, collisionblock);
+    });
+
+    this.velocity.y += this.gravity;
+
+    this.position.y += this.velocity.y;
+    collisionblocks.forEach((collisionblock) => {
+      if (box_collision_y(player, collisionblock)) {
+        if (keys.w.pressed) player.velocity.y = -11;
+      }
+    });
+
     player.velocity.x = 0;
   }
 }
