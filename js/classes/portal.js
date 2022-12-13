@@ -1,21 +1,38 @@
 class Portal extends collisionblock {
+  color = "purple";
   constructor(position) {
     super(position);
+    // this.position = position;
     this.positionLink = {
       x: this.position.x,
       y: this.position.y,
     };
+    this.destination = null;
   }
 
-  color = "purple";
-
-  portalLink(portallink) {
-    this.positionLink.x = portallink.position.x;
-    this.positionLink.y = portallink.position.y;
+  link(destination) {
+    this.destination = destination;
   }
 
-  playerTeletransportator(player) {
-    player.position.x = this.positionLink.x;
-    player.position.y = this.positionLink.y;
+  teleport(player) {
+    if (player.velocity.x < 0) {
+      player.position.x = this.destination.position.x - player.width - 0.01; // bufferaa
+      // return;
+    } else if (player.velocity.x > 0) {
+      player.position.x =
+        this.destination.position.x + this.destination.width + 0.01; // buffer
+      // return;
+    } else player.position.x = this.destination.position.x;
+
+    if (player.velocity.y < 0) {
+      player.velocity.y = -player.velocity.y;
+      player.position.y =
+        this.destination.position.y + this.destination.height + 0.01; // buffer
+      // return false;
+    } else if (player.velocity.y > 0) {
+      player.velocity.y = -player.velocity.y;
+      player.position.y = this.destination.position.y - player.height - 0.01; // buffer
+      // return true;
+    } else player.position.y = this.destination.position.y;
   }
 }

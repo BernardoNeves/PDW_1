@@ -6,18 +6,19 @@ const map = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+  [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
   [1, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-  [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
 const collisionblocks = [];
+const portals = [];
 
 map.forEach((row, y) => {
   row.forEach((object, x) => {
@@ -43,14 +44,14 @@ map.forEach((row, y) => {
         );
         break;
       case 3:
-        collisionblocks.push(
-          new Portal({
-            position: {
-              x: x * 45,
-              y: y * 45,
-            },
-          })
-        );
+        let portal = new Portal({
+          position: {
+            x: x * 45,
+            y: y * 45,
+          },
+        });
+        collisionblocks.push(portal);
+        portals.push(portal);
         break;
     }
   });
@@ -73,6 +74,12 @@ function box_collision_x(player, object) {
     player_bottom >= object_top &&
     player_top <= object_bottom
   ) {
+    if (object instanceof Spike) player.kill();
+    if (object instanceof Portal) {
+      object.teleport(player);
+      return;
+    }
+
     if (player.velocity.x < 0) {
       player.velocity.x = 0;
       player.position.x = object.position.x + object.width + 0.01; // buffer
@@ -102,6 +109,10 @@ function box_collision_y(player, object) {
     player_bottom >= object_top &&
     player_top <= object_bottom
   ) {
+    if (object instanceof Spike) player.kill();
+    if (object instanceof Portal) {
+      return object.teleport(player);
+    }
     if (player.velocity.y < 0) {
       player.velocity.y = 0;
       player.position.y = object.position.y + object.height + 0.01; // buffer
