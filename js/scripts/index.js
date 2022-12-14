@@ -4,7 +4,7 @@ var context = canvas.getContext("2d");
 canvas.width = 16 * 45; //720
 canvas.height = 16 * 45; //720
 
-const player = new Player(500, 200, "red");
+const player = new Player(spawnpoint_x, spawnpoint_y, "red");
 
 const background = new sprite({
   position: {
@@ -16,12 +16,11 @@ const background = new sprite({
 
 function assing_portals() {
   var portal_prev = null;
-  portals.forEach((portal) => {
-    if (portal_prev != null) {
+  portals.forEach((portal, i) => {
+    if (!(i % 2 == 0)) {
       portal.link(portal_prev);
       portal_prev.link(portal);
-    }
-    portal_prev = portal;
+    } else portal_prev = portal;
   });
 }
 
@@ -35,7 +34,6 @@ function animate() {
   collisionblocks.forEach((collisionblock) => {
     collisionblock.draw();
   });
-
   player.draw();
   player.update();
 }

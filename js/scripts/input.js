@@ -2,6 +2,7 @@ const keys = {
   w: { pressed: false },
   a: { pressed: false },
   d: { pressed: false },
+  r: { pressed: false },
 };
 
 window.addEventListener("keydown", (event) => {
@@ -19,6 +20,9 @@ window.addEventListener("keydown", (event) => {
     case "d":
       keys.d.pressed = true;
       break;
+    case "r":
+      keys.r.pressed = true;
+      break;
   }
 });
 window.addEventListener("keyup", (event) => {
@@ -35,6 +39,9 @@ window.addEventListener("keyup", (event) => {
     case "ArrowRight":
     case "d":
       keys.d.pressed = false;
+      break;
+    case "r":
+      keys.r.pressed = false;
       break;
   }
 });

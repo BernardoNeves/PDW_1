@@ -4,21 +4,21 @@ class Player {
       x: x,
       y: y,
     }),
-      (this.position = {
-        x: x,
-        y: y,
-      }),
       (this.color = color);
+    this.position = {
+      x: 0,
+      y: 0,
+    };
     this.velocity = {
       x: 0,
       y: 0,
     };
-    this.gravity = 0.4;
-    this.speed = 5;
+    this.speed = 4;
+    this.gravity = this.speed / 20;
     this.alive = true;
 
-    this.width = 25;
-    this.height = 25;
+    this.width = 22;
+    this.height = 22;
 
     this.sides = {
       top: this.position.y,
@@ -27,21 +27,20 @@ class Player {
       right: this.position.x + this.width,
     };
 
-    this.initialPosition = {
-      x: x,
-      y: y,
-    };
+    this.spawn();
   }
 
   kill() {
     this.alive = false;
-    setTimeout(() => { this.spawn() }, 1500);
+    setTimeout(() => {
+      this.spawn();
+    }, 1500);
   }
   spawn() {
     this.velocity.x = 0;
     this.velocity.y = 0;
-    this.position.x = this.spawnpoint.x;
-    this.position.y = this.spawnpoint.y;
+    this.position.x = this.spawnpoint.x + this.width;
+    this.position.y = this.spawnpoint.y + this.height;
     this.alive = true;
   }
 
@@ -51,25 +50,43 @@ class Player {
     context.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
+  update_sides() {
+    this.sides.top = this.position.y;
+    this.sides.bottom = this.position.y + this.height;
+    this.sides.left = this.position.x;
+    this.sides.right = this.position.x + this.width;
+  }
   update() {
+    // TODO refactor
     if (!this.alive) return;
     if (keys.a.pressed) this.velocity.x -= this.speed;
     if (keys.d.pressed) this.velocity.x += this.speed;
-
+    if (keys.r.pressed) this.spawn();
     this.position.x += this.velocity.x;
     collisionblocks.forEach((collisionblock) => {
+      this.update_sides();
       box_collision_x(this, collisionblock);
     });
-
+    var max_speed = 50;
+    if (this.velocity.y > max_speed) this.velocity.y -= max_speed / 10;
+    if (this.velocity.y < -max_speed) this.velocity.y += max_speed / 10;
     this.velocity.y += this.gravity;
 
     this.position.y += this.velocity.y;
     collisionblocks.forEach((collisionblock) => {
+      this.update_sides();
       if (box_collision_y(this, collisionblock)) {
-        if (keys.w.pressed) this.velocity.y = -11;
+        this.jump();
       }
     });
 
     this.velocity.x = 0;
+    // console.log(
+    //   "🚀 ~ file: player.js:86 ~ Player ~ update ~ this.position",
+    //   this.position
+    // );
+  }
+  jump() {
+    if (keys.w.pressed) this.velocity.y = -this.speed * 2;
   }
 }
