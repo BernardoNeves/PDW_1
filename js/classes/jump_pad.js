@@ -28,9 +28,10 @@ class Jump_Pad extends collisionblock {
       player.position.y = this.position.y + this.height + 0.01;
     } else if (player.velocity.y > 0) {
       player.position.y = this.position.y - player.height - 0.01;
-      if (player.velocity.y < 1)
+      if (player.velocity.y < 1) {
+        // player.jump();
         player.velocity.y = -player.speed * 2 * this.strenght;
-      else player.velocity.y = -player.velocity.y * this.strenght;
+      } else player.velocity.y = -player.velocity.y * this.strenght;
     } else {
       player.position.y = this.position.y + relative_position.y - 0.01;
     }

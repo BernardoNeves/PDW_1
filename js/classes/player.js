@@ -1,10 +1,6 @@
 class Player {
   constructor(x, y, color) {
-    (this.spawnpoint = {
-      x: x,
-      y: y,
-    }),
-      (this.color = color);
+    this.color = color;
     this.position = {
       x: 0,
       y: 0,
@@ -15,10 +11,10 @@ class Player {
     };
     this.speed = 4;
     this.gravity = this.speed / 20;
-    this.alive = true;
+    this.alive = false;
 
-    this.width = 22;
-    this.height = 22;
+    this.width = 22.5;
+    this.height = 22.5;
 
     this.sides = {
       top: this.position.y,
@@ -28,20 +24,6 @@ class Player {
     };
 
     this.spawn();
-  }
-
-  kill() {
-    this.alive = false;
-    setTimeout(() => {
-      this.spawn();
-    }, 1500);
-  }
-  spawn() {
-    this.velocity.x = 0;
-    this.velocity.y = 0;
-    this.position.x = this.spawnpoint.x + this.width;
-    this.position.y = this.spawnpoint.y + this.height;
-    this.alive = true;
   }
 
   draw() {
@@ -56,37 +38,72 @@ class Player {
     this.sides.left = this.position.x;
     this.sides.right = this.position.x + this.width;
   }
+
   update() {
-    // TODO refactor
+    if (keys.r.pressed) this.spawn();
     if (!this.alive) return;
+
+    this.move_x();
+    this.apply_gravity();
+    this.move_y();
+  }
+
+  move_x() {
+    this.velocity.x = 0;
     if (keys.a.pressed) this.velocity.x -= this.speed;
     if (keys.d.pressed) this.velocity.x += this.speed;
-    if (keys.r.pressed) this.spawn();
     this.position.x += this.velocity.x;
-    collisionblocks.forEach((collisionblock) => {
-      this.update_sides();
-      box_collision_x(this, collisionblock);
-    });
-    var max_speed = 50;
-    if (this.velocity.y > max_speed) this.velocity.y -= max_speed / 10;
-    if (this.velocity.y < -max_speed) this.velocity.y += max_speed / 10;
-    this.velocity.y += this.gravity;
+    this.check_collisions_x();
+  }
 
+  move_y() {
+    this.check_collisions_y();
+    this.limit_velocity_y(50);
+  }
+
+  limit_velocity_y(max_speed) {
+    if (this.velocity.y > max_speed) this.velocity.y -= max_speed / 10;
+    else if (this.velocity.y < -max_speed) this.velocity.y += max_speed / 10;
+  }
+
+  apply_gravity() {
+    this.velocity.y += this.gravity;
     this.position.y += this.velocity.y;
-    collisionblocks.forEach((collisionblock) => {
+  }
+
+  jump() {
+    this.velocity.y = -this.speed * 2;
+  }
+
+  check_collisions_x() {
+    tilemap.collisionblocks.forEach((collisionblock) => {
       this.update_sides();
-      if (box_collision_y(this, collisionblock)) {
-        this.jump();
+      tilemap.box_collision_x(this, collisionblock);
+    });
+  }
+
+  check_collisions_y() {
+    tilemap.collisionblocks.forEach((collisionblock) => {
+      this.update_sides();
+      if (tilemap.box_collision_y(this, collisionblock)) {
+        if (keys.w.pressed) this.jump();
       }
     });
-
-    this.velocity.x = 0;
-    // console.log(
-    //   "🚀 ~ file: player.js:86 ~ Player ~ update ~ this.position",
-    //   this.position
-    // );
   }
-  jump() {
-    if (keys.w.pressed) this.velocity.y = -this.speed * 2;
+
+  kill(respawn = true) {
+    this.alive = false;
+    if (respawn)
+      setTimeout(() => {
+        if (!this.alive) this.spawn();
+      }, 1500);
+  }
+
+  spawn() {
+    this.velocity.x = 0;
+    this.velocity.y = 0;
+    this.position.x = tilemap.spawnpoint.x + this.width;
+    this.position.y = tilemap.spawnpoint.y + this.height;
+    this.alive = true;
   }
 }

@@ -4,7 +4,11 @@ var context = canvas.getContext("2d");
 canvas.width = 16 * 45; //720
 canvas.height = 16 * 45; //720
 
-const player = new Player(spawnpoint_x, spawnpoint_y, "red");
+// TODO: start/next level fucntions
+const tilemap = new Tilemap(levels[1]);
+tilemap.generate_collision_blocks();
+
+const player = new Player(tilemap.spawnpoint.x, tilemap.spawnpoint.y, "red");
 
 const background = new sprite({
   position: {
@@ -16,7 +20,7 @@ const background = new sprite({
 
 function assing_portals() {
   var portal_prev = null;
-  portals.forEach((portal, i) => {
+  tilemap.portals.forEach((portal, i) => {
     if (!(i % 2 == 0)) {
       portal.link(portal_prev);
       portal_prev.link(portal);
@@ -30,8 +34,9 @@ function animate() {
   context.fillStyle = "white";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  // background.draw()
-  collisionblocks.forEach((collisionblock) => {
+  // background.draw();
+
+  tilemap.collisionblocks.forEach((collisionblock) => {
     collisionblock.draw();
   });
   player.draw();

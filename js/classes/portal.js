@@ -2,11 +2,6 @@ class Portal extends collisionblock {
   color = "purple";
   constructor(position) {
     super(position);
-    // this.position = position;
-    this.positionLink = {
-      x: this.position.x,
-      y: this.position.y,
-    };
     this.destination = null;
   }
 
