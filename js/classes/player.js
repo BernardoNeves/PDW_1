@@ -1,6 +1,7 @@
 class Player {
-  constructor(x, y, color) {
+  constructor(spawnpoint, color) {
     this.color = color;
+    this.spawnpoint = spawnpoint;;
     this.position = {
       x: 0,
       y: 0,
@@ -102,8 +103,10 @@ class Player {
   spawn() {
     this.velocity.x = 0;
     this.velocity.y = 0;
-    this.position.x = tilemap.spawnpoint.x + this.width;
-    this.position.y = tilemap.spawnpoint.y + this.height;
+    if (!this.spawnpoint) return;
+    this.position.x = this.spawnpoint.x + this.width;
+    this.position.y = this.spawnpoint.y + this.height;
+
     this.alive = true;
   }
 }

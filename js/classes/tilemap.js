@@ -1,10 +1,8 @@
 class Tilemap {
   constructor(tilemap) {
     this.tilemap = tilemap;
-    this.spawnpoint = {
-      x: 0,
-      y: 0,
-    };
+    this.player_spawnpoint = null
+    this.player2_spawnpoint = null
     this.collisionblocks = [];
     this.portals = [];
   }
@@ -31,8 +29,20 @@ class Tilemap {
           case 4:
             this.collisionblocks.push(new Jump_Pad({ position }));
             break;
+          case 5:
+            this.collisionblocks.push(new Key({ position }));
+            break;
+          case 6:
+            this.collisionblocks.push(new Door({ position }));
+            break;
           case -1:
-            this.spawnpoint = {
+            this.player_spawnpoint = {
+              x: x * 45,
+              y: y * 45,
+            };
+            break;
+          case -2:
+            this.player2_spawnpoint = {
               x: x * 45,
               y: y * 45,
             };
@@ -50,6 +60,16 @@ class Tilemap {
       player.sides.top <= object.sides.bottom
     ) {
       if (object instanceof Spike) player.kill();
+
+      if (object instanceof Key) {
+        player.hasKey = true;
+        return;
+      }
+
+      if(object instanceof Door) {
+        object.open_door(player);
+        return;
+      }
 
       if (player.velocity.x < 0) {
         if (object instanceof Portal && object.destination != null) {
@@ -81,6 +101,17 @@ class Tilemap {
       if (object instanceof Spike) player.kill();
       if (object instanceof Jump_Pad) {
         object.launch(player);
+        return;
+      }
+
+      if (object instanceof Key) {
+        player.hasKey = true;
+        object.color = "White";
+        return;
+      }
+
+      if(object instanceof Door) {
+        object.open_door(player);
         return;
       }
 
