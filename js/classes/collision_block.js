@@ -1,9 +1,9 @@
 class Collisionblock {
-  constructor({ position }, color = "rgba(0, 0, 0, 0.2)") {
+  constructor({ position }, color = "rgba(0, 0, 0, 0.9)") {
     this.color = color;
     this.position = position;
-    this.width = 45;
-    this.height = 45;
+    this.width = tilesize;
+    this.height = tilesize;
     this.sides = {
       top: this.position.y,
       bottom: this.position.y + this.height,

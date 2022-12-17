@@ -1,8 +1,9 @@
 const canvas = document.querySelector("canvas");
 var context = canvas.getContext("2d");
 
-canvas.width = 33 * 45; //720
-canvas.height = 16 * 45; //720
+const tilesize = 40;
+canvas.width = 33 * tilesize; //720
+canvas.height = 16 * tilesize; //720
 
 // TODO: start/next level fucntions
 
@@ -14,13 +15,18 @@ const player1 = new Player(tilemap.player_spawnpoint, "red");
 const player2 = new Player(tilemap.player2_spawnpoint, "orange");
 players.push(player1);
 players.push(player2);
+var fps, fpsInterval, startTime, now, then, elapsed;
+var time, background_image;
+fetch("http://worldclockapi.com/api/json/gmt/now")
+  .then((res) => res.json())
+  .then((data) => (time = data.currentDateTime.slice(11, 13)));
 
 const background = new sprite({
   position: {
     x: 0,
     y: 0,
   },
-  image_src: "./assets/background.png",
+  image_src: background_image,
 });
 
 var pause = false;
@@ -36,33 +42,56 @@ function assing_portals() {
   });
 }
 
+function startAnimating(fps) {
+  assing_portals();
+  fpsInterval = 1000 / fps;
+  then = Date.now();
+  startTime = then;
+  animate();
+}
+
 function animate() {
-  if (keys.p.pressed && pausable) pause ? (pause = false) : (pause = true);
-  if (keys.p.pressed) pausable = false;
-  else pausable = true;
+  if (time >= 6 && time < 12) background.image.src = "./assets/morning.png";
+  if (time >= 12 && time < 16) background.image.src = "./assets/midday.png";
+  if (time >= 16 && time < 20) background.image.src = "./assets/afternoon.png";
+  if (time >= 20 || time < 6) background.image.src = "./assets/night.png";
 
-  if (pause) {
-    context.font = "25pt Helvetica";
-    context.fillStyle = "white";
-    context.fillText("Game paused!", canvas.width / 2 - 100, canvas.height / 2);
-    context.fillStyle = "rgba(0,0,0,0.1)";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-  } else {
-    assing_portals();
-    context.fillStyle = "white";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+  now = Date.now();
+  elapsed = now - then;
+  if (elapsed > fpsInterval) {
+    then = now - (elapsed % fpsInterval);
 
-    // background.draw();
+    if (input_keys.p.pressed && pausable)
+      pause ? (pause = false) : (pause = true);
+    if (input_keys.p.pressed) pausable = false;
+    else pausable = true;
 
-    tilemap.collisionblocks.forEach((collisionblock) => {
-      collisionblock.draw();
-    });
-    player1.draw();
-    player1.update();
-    player2.draw();
-    player2.update();
+    if (pause) {
+      context.font = "25pt Helvetica";
+      context.fillStyle = "white";
+      context.fillText(
+        "Game paused!",
+        canvas.width / 2 - 100,
+        canvas.height / 2
+      );
+      context.fillStyle = "rgba(0,0,0,0.1)";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    } else {
+      context.fillStyle = "white";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      background.draw();
+
+      tilemap.collisionblocks.forEach((collisionblock) => {
+        collisionblock.draw();
+      });
+      player1.update();
+      player1.draw();
+      player2.update();
+      player2.draw();
+    }
   }
   window.requestAnimationFrame(animate);
 }
 
-animate();
+startAnimating(60);

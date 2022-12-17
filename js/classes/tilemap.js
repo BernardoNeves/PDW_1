@@ -12,8 +12,8 @@ class Tilemap {
     this.tilemap.forEach((row, y) => {
       row.forEach((id, x) => {
         var position = {
-          x: x * 45,
-          y: y * 45,
+          x: x * tilesize,
+          y: y * tilesize,
         };
         switch (id) {
           case 1:
@@ -40,14 +40,14 @@ class Tilemap {
             break;
           case -1:
             this.player_spawnpoint = {
-              x: x * 45,
-              y: y * 45,
+              x: x * tilesize,
+              y: y * tilesize,
             };
             break;
           case -2:
             this.player2_spawnpoint = {
-              x: x * 45,
-              y: y * 45,
+              x: x * tilesize,
+              y: y * tilesize,
             };
             break;
         }
@@ -68,6 +68,7 @@ class Tilemap {
       }
 
       if (object instanceof Key) {
+        object.grabbed = true;
         player.hasKey = true;
         return;
       }
@@ -115,6 +116,7 @@ class Tilemap {
       }
 
       if (object instanceof Key) {
+        object.grabbed = true;
         player.hasKey = true;
         // object.color = "White";
         return;

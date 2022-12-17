@@ -5,4 +5,45 @@ body {
 
 canvas {
   border: 5px solid gray;
+  height: 90vh;
+}
+
+#main {
+  display: none;
+}
+
+#startGame, #creditsButton, #backButton {
+  text-align: center;
+  vertical-align: middle;
+  border: 2px solid goldenrod;
+  border-radius: 7px;
+  background-color: gold;
+  color: orangered;
+  font-size: 32px;
+  font-weight: bold;
+  font-family: "Courier New";
+  width: 5em;
+  margin: 5px auto;
+}
+
+#theTitle {
+  margin: auto;
+  color: orange;
+  font-size: 1em;
+  font-family: "Courier New";
+  display: none;
+  background-color: inherit;
+}
+
+#credits {
+  margin: auto;
+  color: orange;
+  font-size: 1em;
+  font-family: "Courier New";
+  display: none;
+  background-color: inherit;
+}
+
+#backButton {
+  display: none;
 }

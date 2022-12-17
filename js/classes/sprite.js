@@ -12,6 +12,6 @@ class sprite {
 
   draw() {
     if (!this.loaded) return;
-    context.drawImage(this.image, this.position.x, this.position.y);
+    context.drawImage(this.image, this.position.x, this.position.y, canvas.width, canvas.height);
   }
 }
