@@ -1,4 +1,4 @@
-class collisionblock {
+class Collisionblock {
   constructor({ position }, color = "rgba(0, 0, 0, 0.2)") {
     this.color = color;
     this.position = position;

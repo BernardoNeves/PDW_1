@@ -1,10 +1,11 @@
 class Tilemap {
   constructor(tilemap) {
     this.tilemap = tilemap;
-    this.player_spawnpoint = null
-    this.player2_spawnpoint = null
+    this.player_spawnpoint = null;
+    this.player2_spawnpoint = null;
     this.collisionblocks = [];
     this.portals = [];
+    this.keys = [];
   }
 
   generate_collision_blocks() {
@@ -16,7 +17,7 @@ class Tilemap {
         };
         switch (id) {
           case 1:
-            this.collisionblocks.push(new collisionblock({ position }));
+            this.collisionblocks.push(new Collisionblock({ position }));
             break;
           case 2:
             this.collisionblocks.push(new Spike({ position }));
@@ -30,7 +31,9 @@ class Tilemap {
             this.collisionblocks.push(new Jump_Pad({ position }));
             break;
           case 5:
-            this.collisionblocks.push(new Key({ position }));
+            let key = new Key({ position });
+            this.collisionblocks.push(key);
+            this.keys.push(key);
             break;
           case 6:
             this.collisionblocks.push(new Door({ position }));
@@ -59,14 +62,17 @@ class Tilemap {
       player.sides.bottom >= object.sides.top &&
       player.sides.top <= object.sides.bottom
     ) {
-      if (object instanceof Spike) player.kill();
+      if (object instanceof Spike) {
+        player1.kill();
+        player2.kill();
+      }
 
       if (object instanceof Key) {
         player.hasKey = true;
         return;
       }
 
-      if(object instanceof Door) {
+      if (object instanceof Door) {
         object.open_door(player);
         return;
       }
@@ -98,7 +104,11 @@ class Tilemap {
       player.sides.bottom >= object.sides.top &&
       player.sides.top <= object.sides.bottom
     ) {
-      if (object instanceof Spike) player.kill();
+      if (object instanceof Spike) {
+        players.forEach((player) => {
+          player.kill();
+        });
+      }
       if (object instanceof Jump_Pad) {
         object.launch(player);
         return;
@@ -106,11 +116,11 @@ class Tilemap {
 
       if (object instanceof Key) {
         player.hasKey = true;
-        object.color = "White";
+        // object.color = "White";
         return;
       }
 
-      if(object instanceof Door) {
+      if (object instanceof Door) {
         object.open_door(player);
         return;
       }

@@ -13,6 +13,7 @@ class Player {
     this.speed = 4;
     this.gravity = this.speed / 20;
     this.alive = false;
+    this.hasKey = false;
 
     this.width = 22.5;
     this.height = 22.5;
@@ -94,6 +95,7 @@ class Player {
 
   kill(respawn = true) {
     this.alive = false;
+    this.hasKey = false;
     if (respawn)
       setTimeout(() => {
         if (!this.alive) this.spawn();

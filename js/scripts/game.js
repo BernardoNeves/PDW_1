@@ -5,21 +5,15 @@ canvas.width = 33 * 45; //720
 canvas.height = 16 * 45; //720
 
 // TODO: start/next level fucntions
-window.onload = () => {};
 
 const tilemap = new Tilemap(levels[1]);
 tilemap.generate_collision_blocks();
 
-const player = new Player(tilemap.player_spawnpoint, "red");
-console.log(
-  "🚀 ~ file: game.js:14 ~ player_spawnpoint",
-  tilemap.player_spawnpoint
-);
-const player2 = new Player(tilemap.player2_spawnpoint, "pink");
-console.log(
-  "🚀 ~ file: game.js:14 ~ player2_spawnpoint",
-  tilemap.player2_spawnpoint
-);
+const players = [];
+const player1 = new Player(tilemap.player_spawnpoint, "red");
+const player2 = new Player(tilemap.player2_spawnpoint, "orange");
+players.push(player1);
+players.push(player2);
 
 const background = new sprite({
   position: {
@@ -63,12 +57,12 @@ function animate() {
     tilemap.collisionblocks.forEach((collisionblock) => {
       collisionblock.draw();
     });
-    player.draw();
-    player.update();
+    player1.draw();
+    player1.update();
     player2.draw();
     player2.update();
   }
-  setTimeout(window.requestAnimationFrame(animate), 10000 / 60);
+  window.requestAnimationFrame(animate);
 }
 
 animate();

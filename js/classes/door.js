@@ -1,7 +1,7 @@
-class Door extends collisionblock {
-    color = "brown";
+class Door extends Collisionblock {
     constructor(position) {
         super(position);
+        this.color = "brown";
     }
 
     open_door(player) {
@@ -11,6 +11,7 @@ class Door extends collisionblock {
                context.fillStyle = "black";
                context.font = "25pt Helvetica";
                context.fillText("You have a Key", this.position.x - 100, this.position.y - 25);
+                player.kill();
             }
             else{
                context.fillStyle = "black";
