@@ -5,6 +5,7 @@ const input_keys = {
   d: { pressed: false },
   r: { pressed: false },
   p: { pressed: false },
+  enter: { pressed: false },
 };
 
 window.addEventListener("keydown", (event) => {
@@ -32,6 +33,9 @@ window.addEventListener("keydown", (event) => {
     case "p":
       input_keys.p.pressed = true;
       break;
+    case "Enter":
+      input_keys.enter.pressed = true;
+      break;
   }
 });
 window.addEventListener("keyup", (event) => {
@@ -58,6 +62,9 @@ window.addEventListener("keyup", (event) => {
       break;
     case "p":
       input_keys.p.pressed = false;
+      break;
+    case "Enter":
+      input_keys.enter.pressed = false;
       break;
   }
 });

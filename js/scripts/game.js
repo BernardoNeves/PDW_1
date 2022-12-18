@@ -6,16 +6,31 @@ canvas.width = 33 * tilesize; //720
 canvas.height = 16 * tilesize; //720
 
 // TODO: start/next level fucntions
-
-const tilemap = new Tilemap(levels[1]);
+var lvl = 1;
+var tilemap = new Tilemap(levels[lvl]);
 tilemap.generate_collision_blocks();
 
 const players = [];
-const player1 = new Player(tilemap.player_spawnpoint, "red");
+const player1 = new Player(tilemap.player1_spawnpoint, "red");
 const player2 = new Player(tilemap.player2_spawnpoint, "orange");
 players.push(player1);
 players.push(player2);
+
+function next_level() {
+  if (!levels[lvl + 1]) {
+    window.location.replace("/index.html");
+  }
+  lvl++;
+  tilemap = new Tilemap(levels[lvl]);
+  tilemap.generate_collision_blocks();
+  player1.kill();
+  player2.kill();
+  player1.spawnpoint = tilemap.player1_spawnpoint;
+  player2.spawnpoint = tilemap.player2_spawnpoint;
+}
+
 var fps, fpsInterval, startTime, now, then, elapsed;
+
 var time, background_image;
 fetch("http://worldclockapi.com/api/json/gmt/now")
   .then((res) => res.json())
@@ -31,6 +46,7 @@ const background = new sprite({
 
 var pause = false;
 var pausable = false;
+var skipable = false;
 
 function assing_portals() {
   var portal_prev = null;
@@ -61,12 +77,17 @@ function animate() {
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
 
+    if (input_keys.enter.pressed && skipable) next_level();
+    if (input_keys.enter.pressed) skipable = false;
+    else skipable = true;
+
     if (input_keys.p.pressed && pausable)
       pause ? (pause = false) : (pause = true);
     if (input_keys.p.pressed) pausable = false;
     else pausable = true;
 
     if (pause) {
+      
       context.font = "25pt Helvetica";
       context.fillStyle = "white";
       context.fillText(

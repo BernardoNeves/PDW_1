@@ -1,7 +1,7 @@
 class Tilemap {
   constructor(tilemap) {
     this.tilemap = tilemap;
-    this.player_spawnpoint = null;
+    this.player1_spawnpoint = null;
     this.player2_spawnpoint = null;
     this.collisionblocks = [];
     this.portals = [];
@@ -39,7 +39,7 @@ class Tilemap {
             this.collisionblocks.push(new Door({ position }));
             break;
           case -1:
-            this.player_spawnpoint = {
+            this.player1_spawnpoint = {
               x: x * tilesize,
               y: y * tilesize,
             };

@@ -7,8 +7,7 @@ class Door extends Collisionblock {
   open_door(player) {
     if (input_keys.s.pressed) {
       if (player1.hasKey && player2.hasKey) {
-        //Next Level
-        player.kill();
+        next_level()
       } else {
         context.fillStyle = "black";
         context.font = "25pt Helvetica";
