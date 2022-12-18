@@ -1,8 +1,7 @@
 class Jump_Pad extends Collisionblock {
-  constructor(position) {
-    super(position);
+  constructor(position, image_src) {
+    super(position, image_src);
     this.strenght = 1.25;
-    this.color = "blue"
   }
 
   launch(player) {

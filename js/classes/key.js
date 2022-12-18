@@ -1,6 +1,5 @@
 class Key extends Collisionblock {
-  constructor(position) {
-    super(position);
-    this.color = "yellow";
+  constructor(position, image_src) {
+    super(position, image_src);
   }
 }

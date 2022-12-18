@@ -1,6 +1,5 @@
 class Spike extends Collisionblock {
-  constructor(position) {
-    super(position);
-    this.color = "green";
+  constructor(position, image_src) {
+    super(position, image_src);
   }
 }

@@ -10,8 +10,8 @@ const tilemap = new Tilemap(levels[1]);
 tilemap.generate_collision_blocks();
 
 const players = [];
-const player1 = new Player(tilemap.player_spawnpoint, "red");
-const player2 = new Player(tilemap.player2_spawnpoint, "orange");
+const player1 = new Player(tilemap.player_spawnpoint, "./assets/player.png");
+const player2 = new Player(tilemap.player2_spawnpoint, "./assets/player.png");
 players.push(player1);
 players.push(player2);
 
@@ -57,6 +57,7 @@ function animate() {
     tilemap.collisionblocks.forEach((collisionblock) => {
       collisionblock.draw();
     });
+
     player1.draw();
     player1.update();
     player2.draw();

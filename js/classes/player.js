@@ -1,6 +1,8 @@
-class Player {
-  constructor(spawnpoint, color) {
-    this.color = color;
+class Player extends sprite{
+  constructor(spawnpoint, image_src) {
+
+    super({ image_src });
+
     this.spawnpoint = spawnpoint;;
     this.position = {
       x: 0,
@@ -28,11 +30,11 @@ class Player {
     this.spawn();
   }
 
-  draw() {
-    if (!this.alive) return;
-    context.fillStyle = this.color;
-    context.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
+//  draw() {
+//    if (!this.alive) return;
+//    context.fillStyle = this.color;
+//    context.fillRect(this.position.x, this.position.y, this.width, this.height);
+//  }
 
   update_sides() {
     this.sides.top = this.position.y;

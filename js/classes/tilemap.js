@@ -17,26 +17,26 @@ class Tilemap {
         };
         switch (id) {
           case 1:
-            this.collisionblocks.push(new Collisionblock({ position }));
+            this.collisionblocks.push(new Collisionblock({ position }, "./assets/tile.png"));
             break;
           case 2:
-            this.collisionblocks.push(new Spike({ position }));
+            this.collisionblocks.push(new Spike({ position}, "./assets/spike.png"));
             break;
           case 3:
-            let portal = new Portal({ position });
+            let portal = new Portal({ position }, "./assets/portal.png");
             this.collisionblocks.push(portal);
             this.portals.push(portal);
             break;
           case 4:
-            this.collisionblocks.push(new Jump_Pad({ position }));
+            this.collisionblocks.push(new Jump_Pad({ position }, "./assets/jumppad.png"));
             break;
           case 5:
-            let key = new Key({ position });
+            let key = new Key({ position }, "./assets/keycard.png");
             this.collisionblocks.push(key);
             this.keys.push(key);
             break;
           case 6:
-            this.collisionblocks.push(new Door({ position }));
+            this.collisionblocks.push(new Door({ position }, "./assets/door.png"));
             break;
           case -1:
             this.player_spawnpoint = {

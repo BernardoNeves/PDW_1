@@ -1,6 +1,8 @@
-class Collisionblock {
-  constructor({ position }, color = "rgba(0, 0, 0, 0.2)") {
-    this.color = color;
+class Collisionblock extends sprite{
+  constructor({ position }, image_src) {
+
+    super({ image_src });
+
     this.position = position;
     this.width = 45;
     this.height = 45;
@@ -23,8 +25,8 @@ class Collisionblock {
     this.update_sides();
   }
 
-  draw() {
-    context.fillStyle = this.color;
-    context.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
+//  draw() {
+//    context.fillStyle = this.color;
+//    context.fillRect(this.position.x, this.position.y, this.width, this.height);
+//  }
 }

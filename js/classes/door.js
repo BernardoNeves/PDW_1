@@ -1,7 +1,6 @@
 class Door extends Collisionblock {
-    constructor(position) {
-        super(position);
-        this.color = "brown";
+    constructor(position, image_src) {
+        super(position, image_src);
     }
 
     open_door(player) {
