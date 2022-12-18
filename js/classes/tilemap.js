@@ -1,7 +1,7 @@
 class Tilemap {
   constructor(tilemap) {
     this.tilemap = tilemap;
-    this.player_spawnpoint = null;
+    this.player1_spawnpoint = null;
     this.player2_spawnpoint = null;
     this.collisionblocks = [];
     this.portals = [];
@@ -12,8 +12,8 @@ class Tilemap {
     this.tilemap.forEach((row, y) => {
       row.forEach((id, x) => {
         var position = {
-          x: x * 45,
-          y: y * 45,
+          x: x * tilesize,
+          y: y * tilesize,
         };
         switch (id) {
           case 1:
@@ -39,15 +39,15 @@ class Tilemap {
             this.collisionblocks.push(new Door({ position }, "./assets/door.png"));
             break;
           case -1:
-            this.player_spawnpoint = {
-              x: x * 45,
-              y: y * 45,
+            this.player1_spawnpoint = {
+              x: x * tilesize,
+              y: y * tilesize,
             };
             break;
           case -2:
             this.player2_spawnpoint = {
-              x: x * 45,
-              y: y * 45,
+              x: x * tilesize,
+              y: y * tilesize,
             };
             break;
         }
@@ -68,6 +68,7 @@ class Tilemap {
       }
 
       if (object instanceof Key) {
+        object.grabbed = true;
         player.hasKey = true;
         return;
       }
@@ -115,6 +116,7 @@ class Tilemap {
       }
 
       if (object instanceof Key) {
+        object.grabbed = true;
         player.hasKey = true;
         // object.color = "White";
         return;

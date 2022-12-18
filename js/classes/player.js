@@ -1,9 +1,10 @@
-class Player extends sprite{
+class Player extends Sprite{
   constructor(spawnpoint, image_src) {
 
     super({ image_src });
 
     this.spawnpoint = spawnpoint;;
+
     this.position = {
       x: 0,
       y: 0,
@@ -28,6 +29,7 @@ class Player extends sprite{
     };
 
     this.spawn();
+
   }
 
 //  draw() {
@@ -44,7 +46,7 @@ class Player extends sprite{
   }
 
   update() {
-    if (keys.r.pressed) this.spawn();
+    if (input_keys.r.pressed) this.spawn();
     if (!this.alive) return;
 
     this.move_x();
@@ -54,15 +56,15 @@ class Player extends sprite{
 
   move_x() {
     this.velocity.x = 0;
-    if (keys.a.pressed) this.velocity.x -= this.speed;
-    if (keys.d.pressed) this.velocity.x += this.speed;
+    if (input_keys.a.pressed) this.velocity.x -= this.speed;
+    if (input_keys.d.pressed) this.velocity.x += this.speed;
     this.position.x += this.velocity.x;
     this.check_collisions_x();
   }
 
   move_y() {
     this.check_collisions_y();
-    this.limit_velocity_y(50);
+    this.limit_velocity_y(40);
   }
 
   limit_velocity_y(max_speed) {
@@ -90,14 +92,19 @@ class Player extends sprite{
     tilemap.collisionblocks.forEach((collisionblock) => {
       this.update_sides();
       if (tilemap.box_collision_y(this, collisionblock)) {
-        if (keys.w.pressed) this.jump();
+        if (input_keys.w.pressed) this.jump();
       }
     });
   }
 
   kill(respawn = true) {
+    tilemap.keys.forEach((key, i) => {
+      key.grabbed = false;
+    });
     this.alive = false;
     this.hasKey = false;
+    this.position.x = this.spawnpoint.x + this.width;
+    this.position.y = this.spawnpoint.y + this.height - this.height / 4;
     if (respawn)
       setTimeout(() => {
         if (!this.alive) this.spawn();
@@ -109,8 +116,7 @@ class Player extends sprite{
     this.velocity.y = 0;
     if (!this.spawnpoint) return;
     this.position.x = this.spawnpoint.x + this.width;
-    this.position.y = this.spawnpoint.y + this.height;
-
+    this.position.y = this.spawnpoint.y + this.height - this.height / 4;
     this.alive = true;
   }
 }

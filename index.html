@@ -8,19 +8,35 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Connected</h1>
-    <canvas></canvas>
+    <div id="theTitle">Conected</div>
+    <div
+      id="startGame"
+      onclick="runGame()"
+      onmouseover="this.style.backgroungColor = 'goldenrod'"
+      onmouseout="this.style.backgroundColor = 'gold'"
+    >
+      New Game
+    </div>
+    <div
+      id="creditsButton"
+      onclick="showCredits()"
+      onmouseover="this.style.backgroundColor = 'goldenrod'"
+      onmouseout="this.style.backgroundColor = 'gold'"
+    >
+      Credits
+    </div>
+    <div id="credits">Conected: Made by Bernardo Neves and Joao Antunes</div>
+    <div
+      id="backButton"
+      onclick="goBack()"
+      onmouseover="this.style.backgroundColor = 'goldenrod'"
+      onmouseout="this.style.backgroundColor = 'gold'"
+    >
+      Back
+    </div>
+    <div id="main">
+      <canvas id="menu" width="1320" height="640"></canvas>
+    </div>
   </body>
-  <script src="js/classes/sprite.js"></script>
-  <script src="js/classes/collision_block.js"></script>
-  <script src="js/classes/spike.js"></script>
-  <script src="js/classes/key.js"></script>
-  <script src="js/classes/door.js"></script>
-  <script src="js/classes/portal.js"></script>
-  <script src="js/classes/jump_pad.js"></script>
-  <script src="js/classes/player.js"></script>
-  <script src="js/classes/levels.js"></script>
-  <script src="js/classes/tilemap.js"></script>
-  <script src="js/scripts/input.js"></script>
-  <script src="js/scripts/game.js"></script>
+  <script src="js/scripts/menu.js"></script>
 </html>

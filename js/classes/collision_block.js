@@ -1,11 +1,11 @@
-class Collisionblock extends sprite{
+class Collisionblock extends Sprite{
   constructor({ position }, image_src) {
 
     super({ image_src });
 
     this.position = position;
-    this.width = 45;
-    this.height = 45;
+    this.width = tilesize;
+    this.height = tilesize;
     this.sides = {
       top: this.position.y,
       bottom: this.position.y + this.height,

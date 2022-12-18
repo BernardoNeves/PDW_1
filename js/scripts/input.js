@@ -1,10 +1,11 @@
-const keys = {
+const input_keys = {
   w: { pressed: false },
   a: { pressed: false },
   s: { pressed: false },
   d: { pressed: false },
   r: { pressed: false },
   p: { pressed: false },
+  enter: { pressed: false },
 };
 
 window.addEventListener("keydown", (event) => {
@@ -12,25 +13,28 @@ window.addEventListener("keydown", (event) => {
     case "ArrowUp":
     case " ":
     case "w":
-      keys.w.pressed = true;
+      input_keys.w.pressed = true;
       break;
     case "ArrowLeft":
     case "a":
-      keys.a.pressed = true;
+      input_keys.a.pressed = true;
       break;
     case "ArrowDown":
     case "s":
-      keys.s.pressed = true;
+      input_keys.s.pressed = true;
       break;
     case "ArrowRight":
     case "d":
-      keys.d.pressed = true;
+      input_keys.d.pressed = true;
       break;
     case "r":
-      keys.r.pressed = true;
+      input_keys.r.pressed = true;
       break;
     case "p":
-      keys.p.pressed = true;
+      input_keys.p.pressed = true;
+      break;
+    case "Enter":
+      input_keys.enter.pressed = true;
       break;
   }
 });
@@ -39,25 +43,28 @@ window.addEventListener("keyup", (event) => {
     case "ArrowUp":
     case " ":
     case "w":
-      keys.w.pressed = false;
+      input_keys.w.pressed = false;
       break;
     case "ArrowLeft":
     case "a":
-      keys.a.pressed = false;
+      input_keys.a.pressed = false;
       break;
     case "ArrowDown":
     case "s":
-      keys.s.pressed = false;
+      input_keys.s.pressed = false;
       break;
     case "ArrowRight":
     case "d":
-      keys.d.pressed = false;
+      input_keys.d.pressed = false;
       break;
     case "r":
-      keys.r.pressed = false;
+      input_keys.r.pressed = false;
       break;
     case "p":
-      keys.p.pressed = false;
+      input_keys.p.pressed = false;
+      break;
+    case "Enter":
+      input_keys.enter.pressed = false;
       break;
   }
 });
