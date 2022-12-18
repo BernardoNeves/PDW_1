@@ -1,4 +1,4 @@
-class sprite {
+class Sprite {
   constructor({ position, image_src }) {
     this.position = position;
     this.image = new Image();
