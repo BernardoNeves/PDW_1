@@ -17,10 +17,14 @@ class Tilemap {
         };
         switch (id) {
           case 1:
-            this.collisionblocks.push(new Collisionblock({ position }, "./assets/tile.png"));
+            this.collisionblocks.push(
+              new Collisionblock({ position }, "./assets/tile.png")
+            );
             break;
           case 2:
-            this.collisionblocks.push(new Spike({ position}, "./assets/spike.png"));
+            this.collisionblocks.push(
+              new Spike({ position }, "./assets/spike.png")
+            );
             break;
           case 3:
             let portal = new Portal({ position }, "./assets/portal.png");
@@ -28,7 +32,9 @@ class Tilemap {
             this.portals.push(portal);
             break;
           case 4:
-            this.collisionblocks.push(new Jump_Pad({ position }, "./assets/jumppad.png"));
+            this.collisionblocks.push(
+              new Jump_Pad({ position }, "./assets/jumppad.png")
+            );
             break;
           case 5:
             let key = new Key({ position }, "./assets/keycard.png");
@@ -36,7 +42,9 @@ class Tilemap {
             this.keys.push(key);
             break;
           case 6:
-            this.collisionblocks.push(new Door({ position }, "./assets/door.png"));
+            this.collisionblocks.push(
+              new Door({ position }, "./assets/door.png")
+            );
             break;
           case -1:
             this.player1_spawnpoint = {
@@ -74,9 +82,10 @@ class Tilemap {
       }
 
       if (object instanceof Door) {
+        player.atdoor = true;
         object.open_door(player);
         return;
-      }
+      } else player.atdoor = false;
 
       if (player.velocity.x < 0) {
         if (object instanceof Portal && object.destination != null) {
@@ -123,9 +132,10 @@ class Tilemap {
       }
 
       if (object instanceof Door) {
+        player.atdoor = true;
         object.open_door(player);
         return;
-      }
+      } else player.atdoor = false;
 
       if (player.velocity.y < 0) {
         if (object instanceof Portal && object.destination != null) {

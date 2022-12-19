@@ -11,7 +11,7 @@ var tilemap = new Tilemap(levels[lvl]);
 tilemap.generate_collision_blocks();
 
 const players = [];
-const player1 = new Player(tilemap.player_spawnpoint, "./assets/player.png");
+const player1 = new Player(tilemap.player1_spawnpoint, "./assets/player.png");
 const player2 = new Player(tilemap.player2_spawnpoint, "./assets/player.png");
 players.push(player1);
 players.push(player2);
@@ -23,10 +23,11 @@ function next_level() {
   lvl++;
   tilemap = new Tilemap(levels[lvl]);
   tilemap.generate_collision_blocks();
-  player1.kill();
-  player2.kill();
+  assing_portals();
   player1.spawnpoint = tilemap.player1_spawnpoint;
   player2.spawnpoint = tilemap.player2_spawnpoint;
+  player1.kill();
+  player2.kill();
 }
 
 var fps, fpsInterval, startTime, now, then, elapsed;
@@ -76,7 +77,6 @@ function animate() {
   elapsed = now - then;
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
-
     if (input_keys.enter.pressed && skipable) next_level();
     if (input_keys.enter.pressed) skipable = false;
     else skipable = true;
@@ -87,7 +87,6 @@ function animate() {
     else pausable = true;
 
     if (pause) {
-      
       context.font = "25pt Helvetica";
       context.fillStyle = "white";
       context.fillText(
@@ -101,6 +100,8 @@ function animate() {
       context.fillStyle = "white";
       context.fillRect(0, 0, canvas.width, canvas.height);
 
+      background.width = canvas.width;
+      background.height = canvas.height;
       background.draw();
 
       tilemap.collisionblocks.forEach((collisionblock) => {

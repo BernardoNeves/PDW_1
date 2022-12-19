@@ -1,9 +1,8 @@
-class Player extends Sprite{
+class Player extends Sprite {
   constructor(spawnpoint, image_src) {
-
     super({ image_src });
 
-    this.spawnpoint = spawnpoint;;
+    this.spawnpoint = spawnpoint;
 
     this.position = {
       x: 0,
@@ -17,6 +16,7 @@ class Player extends Sprite{
     this.gravity = this.speed / 20;
     this.alive = false;
     this.hasKey = false;
+    this.atdoor = false;
 
     this.width = 22.5;
     this.height = 22.5;
@@ -29,14 +29,12 @@ class Player extends Sprite{
     };
 
     this.spawn();
-
   }
 
-//  draw() {
-//    if (!this.alive) return;
-//    context.fillStyle = this.color;
-//    context.fillRect(this.position.x, this.position.y, this.width, this.height);
-//  }
+  draw() {
+    if (!this.alive) return;
+    super.draw();
+  }
 
   update_sides() {
     this.sides.top = this.position.y;

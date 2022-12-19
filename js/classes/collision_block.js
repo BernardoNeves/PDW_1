@@ -25,8 +25,4 @@ class Collisionblock extends Sprite{
     this.update_sides();
   }
 
-//  draw() {
-//    context.fillStyle = this.color;
-//    context.fillRect(this.position.x, this.position.y, this.width, this.height);
-//  }
 }
