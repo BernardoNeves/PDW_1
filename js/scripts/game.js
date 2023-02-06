@@ -33,9 +33,9 @@ function next_level() {
 var fps, fpsInterval, startTime, now, then, elapsed;
 
 var time, background_image;
-fetch("http://worldclockapi.com/api/json/gmt/now")
+fetch("http://worldtimeapi.org/api/timezone/Europe/Lisbon")
   .then((res) => res.json())
-  .then((data) => (time = data.currentDateTime.slice(11, 13)));
+  .then((data) => (time = data.datetime.slice(11, 13)));
 
 const background = new Sprite({
   position: {
@@ -68,6 +68,7 @@ function startAnimating(fps) {
 }
 
 function animate() {
+  console.log("Time: ",time)
   if (time >= 6 && time < 12) background.image.src = "./assets/morning.png";
   if (time >= 12 && time < 16) background.image.src = "./assets/midday.png";
   if (time >= 16 && time < 20) background.image.src = "./assets/afternoon.png";
